@@ -17,6 +17,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 train_gen = ImageDataGenerator(rescale=1. / 255, horizontal_flip=True,
                                rotation_range=20, width_shift_range=.2,
                                height_shift_range=.2, zoom_range=.2)
+''' Here and further I commented fragments of code which we are not using having downloaded my pretrained model'''
 # valid_gen = ImageDataGenerator(rescale=1. / 255, validation_split=0.4)
 
 train_data = train_gen.flow_from_directory(directory='Original Images/Original Images',
@@ -32,7 +33,7 @@ train_data = train_gen.flow_from_directory(directory='Original Images/Original I
 
 # label_map = train_data.class_indices
 label_map = {'Monkey Pox': 0, 'Others': 1}
-
+''' This the model I use for classification '''
 # with tf.device('/GPU:0'):
 #     base_model = ResNet50V2(
 #         include_top=False,
@@ -68,7 +69,7 @@ label_map = {'Monkey Pox': 0, 'Others': 1}
 
 model = keras.models.load_model('ResNet50V2-01.h5')
 
-
+''' Function to reshape input image to the standart shape for classification model'''
 def load(filename):
     np_image = Image.open(filename)
     np_image = np.array(np_image).astype('float32') / 255
@@ -76,7 +77,7 @@ def load(filename):
     np_image = np.expand_dims(np_image, axis=0)
     return np_image
 
-
+'''Loop to download absolute path to image +image name from your OS directory as a string value'''
 while True:
     print('Print absolute path to your image in console and press ENTER')
     image = load(str(input()))
